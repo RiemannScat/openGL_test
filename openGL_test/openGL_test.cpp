@@ -3,19 +3,53 @@
 
 #include "pch.h"
 #include <iostream>
+#include <GL/glut.h>
 
-int main()
+using namespace std;
+
+void displayCB(void)		/* function called whenever redisplay needed */
 {
-    std::cout << "Hello World!\n"; 
+	glClear(GL_COLOR_BUFFER_BIT);		/* clear the display */
+	glClearColor(1.0, 1.0, 1.0, 0);
+	glColor3f(1.0, 0.5, 0.11);
+
+	glBegin(GL_LINE_LOOP);
+		glVertex2i(100, 100);
+		glVertex2i(200, 100);
+		glVertex2i(200, 200);
+		glVertex2i(100, 200);
+	glEnd();
+
+	glFlush();				/* Complete any pending operations */
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void keyCB(unsigned char key, int x, int y)	/* called on key press */
+{
+	if (key == 'q') exit(0);
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+int main(int argc, char *argv[])
+{
+
+	glutInit(&argc, argv);		/* initialize GLUT system */
+
+	glutInitDisplayMode(GLUT_RGB);
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(600, 600);		/* width=400pixels height=500pixels */
+	glutCreateWindow("Triangle");	/* create window */
+
+	gluOrtho2D(100, 700, 700, 100);
+
+	/* from this point on the current window is win */
+
+	glutDisplayFunc(displayCB);		/* set window's display callback */
+	glutKeyboardFunc(keyCB);		/* set window's key callback */
+
+	glutMainLoop();			/* start processing events... */
+
+	/* execution never reaches this point */
+
+	return 0;
+}
+
+
